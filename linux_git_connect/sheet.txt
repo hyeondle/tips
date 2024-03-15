@@ -1,0 +1,37 @@
+초기 리눅스 (우분투, 데비안)을 깐 뒤, 원격 연동 및 깃허브 연동법
+
+1. ufw 방화벽 세팅
+2. 깃허브 키 및 ssh 설정 추가
+
+.
+
+sudo apt-get update
+sudo apt-get install ufw
+sudo apt-get install openssh-server
+sudo apt-get install git
+
+sudo ufw allow 22
+sudo ufw allow {포트} // 원격 연결 혹은 깃허브 접속시 포워딩 할 포트
+...
+...
+
+sudo systemctl restart ufw
+
+ssh-keygen 으로 생성한 키 github에 등록하기
+-> cat ./.ssh/id_rsa.pub
+
+깃허브 클론 및 업로드시 사용할 포트 설정
+마음에 드는 편집기로 작업하면 좋음
+
+vim ./.ssh/config
+
+이하 내용 추가 후 저장
+
+Host github.com
+Hostname ssh.github.com
+port 443
+
+포트는 내가 방화벽 열어둔 다른 포트 사용해도 무방함.
+22 그대로 사용은 비추천
+
+이 과정 이후에는 정상적으로 ssh를 통한 clone 및 push가 가능해짐
